@@ -1,8 +1,9 @@
 .notFound {
   display: flex;
   justify-content: center;
-  &__title {
-    display: flex;
-    margin-top: 50px;
-  }
+}
+
+.title {
+  display: flex;
+  margin-top: 50px;
 }

@@ -1,4 +1,4 @@
-import styles from "../Loader/index.module.scss";
+import styles from "./index.module.scss";
 
 const Loader = () => {
   return <div className={styles.loader}>Loading...</div>;

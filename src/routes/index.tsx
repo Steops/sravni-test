@@ -1,8 +1,8 @@
-import { PhotosList } from "../components/PhotosList/PhotosList";
-import { UsersList } from "../components/UsersList/UsersList";
 import { Navigate, useRoutes } from "react-router";
 import { PATHS } from "./paths";
-import { NotFound } from "../components/NotFound/NotFound";
+import { NotFoundPage } from "../pages/NotFoundPage";
+import { UsersList } from "../components/UsersList";
+import { PhotosList } from "../components/PhotosList";
 
 export const Router = () => {
   const router = useRoutes([
@@ -17,7 +17,7 @@ export const Router = () => {
     { path: "*", element: <Navigate to="/" replace /> },
     {
       path: PATHS.user,
-      element: <NotFound />,
+      element: <NotFoundPage />,
     },
   ]);
   return router;

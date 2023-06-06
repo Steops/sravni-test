@@ -1,16 +1,15 @@
-import { useTypedSelector } from "../../hooks/useTypedSelector";
-import { RootState } from "../../store/store";
+import styles from "./index.module.scss";
+import { RootState, useTypedSelector } from "../../store/store";
 import type {} from "redux-thunk/extend-redux";
-import styles from "../../components/UsersList/index.module.scss";
-import { Loader } from "../../uikit/Loader/Loader";
 import { IUsers } from "../../types/users";
-import { Email } from "../../uikit/Email";
-import { Username } from "../../uikit/Username";
-import { Phone } from "../../uikit/Phone";
-import { Company } from "../../uikit/Company";
-import ErrorPage from "../ErrorPage/ErrorPage";
+import { ErrorPage } from "../../pages/ErrorPage";
 import { useNavigate } from "react-router";
 import { PATHS } from "../../routes/paths";
+import { Email } from "../icons/Email";
+import { Username } from "../icons/Username";
+import { Phone } from "../icons/Phone";
+import { Company } from "../icons/Company";
+import { Loader } from "../Loader";
 
 interface IUserCard {
   user: IUsers;
@@ -51,7 +50,6 @@ const UserCard = ({ user }: IUserCard) => {
   );
 };
 
-// user вместо userCard
 const UsersList = () => {
   const { users, error, loading } = useTypedSelector(
     (state: RootState) => state.users
@@ -68,8 +66,8 @@ const UsersList = () => {
     <div className={styles.userList}>
       <div className={styles.wrapper}>
         <div className={styles.content}>
-          {users.map((item, index) => (
-            <UserCard user={item} key={index} />
+          {users.map((user) => (
+            <UserCard user={user} key={user.id} />
           ))}
         </div>
       </div>

@@ -7,7 +7,7 @@ export const fetchPhotos = (userID: string | number) => {
     try {
       dispatch({ type: PhotosActionTypes.FETCH_PHOTOS });
       const response = await axios.get(
-        `${process.env.REACT_APP_URL}/photos?_limit=10&_&albumId=${userID}`
+        `${process.env.REACT_APP_URL}/photos?_&albumId=${userID}`
       );
       dispatch({
         type: PhotosActionTypes.FETCH_PHOTOS_SUCCESS,

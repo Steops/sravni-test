@@ -1,15 +1,13 @@
 import styles from "../../components/PhotosList/index.module.scss";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router";
-import { useNavigate } from "react-router";
-import { useTypedSelector } from "../../hooks/useTypedSelector";
-import { PATHS } from "../../routes/paths";
 import { fetchPhotos } from "../../store/action-creators/fetchPhotos";
 import { IPhotos } from "../../types/photos";
-import { Loader } from "../../uikit/Loader/Loader";
-import { NotFound } from "../NotFound/NotFound";
-import ErrorPage from "../ErrorPage/ErrorPage";
+import { Loader } from "../Loader";
+import { ErrorPage } from "../../pages/ErrorPage";
+import { NotFoundPage } from "../../pages/NotFoundPage";
+import { useTypedSelector } from "../../store/store";
 
 interface IPhotoCard {
   photo: IPhotos;
@@ -30,8 +28,6 @@ const PhotoCard = ({ photo }: IPhotoCard) => {
 };
 const PhotosList = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { users } = useTypedSelector((state) => state.users);
   const { userID } = useParams();
   const ID = Number(userID);
 
@@ -40,35 +36,51 @@ const PhotosList = () => {
   }, [ID, dispatch]);
 
   const { photos, loading, error } = useTypedSelector((state) => state.photos);
+  const [startIndex, setStartIndex] = useState(0);
+  const [finishIndex, setFinishIndex] = useState(10);
+  const setBackPhotos = () => {
+    setStartIndex(startIndex - 10);
+    setFinishIndex(finishIndex - 10);
+  };
+  const setForwardPhotos = () => {
+    setStartIndex(startIndex + 10);
+    setFinishIndex(finishIndex + 10);
+  };
+
+  const selectedPhotos = photos.slice(startIndex, finishIndex);
+
   if (loading) {
     return <Loader />;
   }
   if (error) {
     return <ErrorPage />;
   }
+
+  //Искусственно ограничил ID юзера, потому что в сумме 10 юзеров есть
   if (photos.length === 0 || ID > 10) {
-    return <NotFound />;
+    return <NotFoundPage />;
   }
+
   return (
     <div className={styles.photosList}>
       <div className={styles.wrapper}>
         <div className={styles.content}>
-          {photos.map((photo, index) => (
+          {selectedPhotos.map((photo, index) => (
             <PhotoCard photo={photo} key={index} />
           ))}
         </div>
         <div className={styles.buttons}>
           <button
             className={styles.btn}
-            onClick={() => navigate(PATHS.userID(ID - 1))}
-            disabled={ID !== 1 ? false : true}
+            onClick={() => setBackPhotos()}
+            disabled={startIndex === 0 ? true : false}
           >
             Назад
           </button>
           <button
             className={styles.btn}
-            onClick={() => navigate(PATHS.userID(ID + 1))}
-            disabled={ID <= users.length - 1 ? false : true}
+            onClick={() => setForwardPhotos()}
+            disabled={finishIndex === 50 ? true : false}
           >
             Вперед
           </button>

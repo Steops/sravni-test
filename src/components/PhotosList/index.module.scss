@@ -3,6 +3,7 @@
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 24px 24px;
 }
+
 .buttons {
   display: flex;
   justify-content: center;
@@ -32,12 +33,14 @@
   border: 1px solid black;
   display: flex;
   justify-content: center;
+
   &Content {
     padding: 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
   }
+
   &Img {
     width: 200px;
     margin-bottom: 5px;
